@@ -7,20 +7,7 @@ pipeline {
         stage('Check bash syntax') {
             agent { docker { image 'koalaman/shellcheck-alpine:stable' } }
             steps {
-                sh 'shellcheck --version'
-                sh 'apk --no-cache add grep'
-                sh '''
-                for file in $(grep -IRl "#!(/usr/bin/env |/bin/)" --exclude-dir ".git" --exclude Jenkinsfile \${WORKSPACE}); do
-                  if ! shellcheck -x $file; then
-                    export FAILED=1
-                  else
-                    echo "$file OK"
-                  fi
-                done
-                if [ "${FAILED}" = "1" ]; then
-                  exit 1
-                fi
-                '''
+                script { bashCheck }
             }
         }
         stage('Check yaml syntax') {
@@ -92,9 +79,11 @@ pipeline {
 
     post {
     always {
-         /* Use slackNotifier.groovy from shared library and provide current build result as parameter */   
-         slackNotifier(currentBuild.currentResult)
-         cleanWs()
+       script {
+         /* Use slackNotifier.groovy from shared library and provide current build result as parameter */
+         clean
+         slackNotifier currentBuild.result
      }
+    }
     }
 }
