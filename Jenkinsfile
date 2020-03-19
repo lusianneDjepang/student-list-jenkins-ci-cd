@@ -36,7 +36,7 @@ pipeline {
                 sh 'mdl --style all --warnings --git-recurse \${WORKSPACE}'
             }
         }
-        stage('Prepare ansible environment') {
+        /*stage('Prepare ansible environment') {
             agent any
             environment {
                 VAULTKEY = credentials('vaultkey')
@@ -84,7 +84,15 @@ pipeline {
                    }
                }
             }
-        }
+        }*/
     }
 }
 
+post {
+   success {
+     slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+     }
+  failure {
+        slackSend (color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+      }   
+}
