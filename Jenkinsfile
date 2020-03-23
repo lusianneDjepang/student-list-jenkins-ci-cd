@@ -26,7 +26,7 @@ pipeline {
                 sh 'mdl --style all --warnings --git-recurse \${WORKSPACE}'
             }
         }
-        /*stage('Prepare ansible environment') {
+        stage('Prepare ansible environment') {
             agent any
             environment {
                 VAULTKEY = credentials('vaultkey')
@@ -74,7 +74,7 @@ pipeline {
                    }
                }
             }
-        }*/
+        }
     }
 
     post {
