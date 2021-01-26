@@ -7,7 +7,7 @@
 * This is a complete pipeline CI/CD with Jenkins to deploy a python application in production
 * This infrastructure it's componed of 3 servers (gitlabserver, build server and production server)
 * We use Ansible, Docker, Git and Gitlab tools
-The differents stages are :
+* The differents stages are :
 1. Ensure lint syntax of diferents langages (bash, yamel and markdown) is OK
 2. Ensure servers are availables
 3. Ensure syntax ansible is OK with ansible-lint
